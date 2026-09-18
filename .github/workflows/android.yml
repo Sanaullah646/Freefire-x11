@@ -1,0 +1,29 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Build Godot Android APK
+        uses: firebelley/godot-ci@v5
+        with:
+          godot-version: 4.3.0
+          godot-status: stable
+          working-directory: .
+          command: godot --headless --export-release "Android" build/SanaullahBattleRoyale.apk
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v6
+        with:
+          name: SanaullahBattleRoyale-APK
+          path: build/SanaullahBattleRoyale.apk
